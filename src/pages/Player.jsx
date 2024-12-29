@@ -15,7 +15,7 @@ function Player() {
     const [search, setSearch] = useState("")
 
     function handleSearch() {
-        axios.get(`https://music-backend-fg40.onrender.com/${search}`).then((response) => {
+        axios.get(`https://music-backend-fg40.onrender.com/play/${search}`).then((response) => {
             setData(response.data);
             console.log(response.data)
         })
