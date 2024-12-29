@@ -8,7 +8,7 @@ function App() {
   const [data, setData] = useState([]);
   const [search, setSearch] = useState("")
   function handleSearch() {
-    axios.get(`https://music-backend-fg40.onrender.com/${search}`).then((response) => {
+    axios.get(`https://music-backend-k1wm.onrender.com/${search}`).then((response) => {
       setData(response.data);
       console.log(response.data)
     })
