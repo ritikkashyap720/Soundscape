@@ -15,7 +15,7 @@ function Player() {
     const [search, setSearch] = useState("")
 
     function handleSearch() {
-        axios.get(`https://music-backend-fg40.onrender.com/play/${search}`).then((response) => {
+        axios.get(`https://music-backend-fg40.onrender.com/${search}`).then((response) => {
             setData(response.data);
             console.log(response.data)
         })
@@ -24,7 +24,7 @@ function Player() {
     useEffect(() => {
         setAudioSource(null)
         setData(null)
-        axios.get(`https://music-backend-fg40.onrender.com/${song.videoId}`).then((response) => {
+        axios.get(`https://music-backend-fg40.onrender.com/play/${song.videoId}`).then((response) => {
             if (response.data.audio) {
                 console.log(response)
                 setAudioSource(response.data.audio[1].url)
