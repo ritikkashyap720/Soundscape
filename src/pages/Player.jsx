@@ -15,7 +15,7 @@ function Player() {
     const [search, setSearch] = useState("")
 
     function handleSearch() {
-        axios.get(`https://music-backend-fg40.onrender.com/${search}`).then((response) => {
+        axios.get(`https://music-backend-k1wm.onrender.com/${search}`).then((response) => {
             setData(response.data);
             console.log(response.data)
         })
@@ -24,17 +24,17 @@ function Player() {
     useEffect(() => {
         setAudioSource(null)
         setData(null)
-        axios.get(`https://music-backend-fg40.onrender.com/play/${song.videoId}`).then((response) => {
+        axios.get(`https://music-backend-k1wm.onrender.com/play/${song.videoId}`).then((response) => {
             if (response.data.audio) {
                 console.log(response)
                 setAudioSource(response.data.audio[1].url)
             }
         })
         if (song.artist.name) {
-            axios.get(`https://music-backend-fg40.onrender.com/suggestions/${song.artist.name} `).then((response) => { if (response.data) { setData(response.data) } console.log(response) })
+            axios.get(`https://music-backend-k1wm.onrender.com/suggestions/${song.artist.name} `).then((response) => { if (response.data) { setData(response.data) } console.log(response) })
                
         } else {
-            axios.get(`https://music-backend-fg40.onrender.com/suggestions/${song.album.name} `).then((response) => { if (response.data) { setData(response.data) } console.log(response) })
+            axios.get(`https://music-backend-k1wm.onrender.com/suggestions/${song.album.name} `).then((response) => { if (response.data) { setData(response.data) } console.log(response) })
         }
     }, [song]);
 
