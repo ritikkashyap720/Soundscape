@@ -31,10 +31,10 @@ function Player() {
             }
         })
         if (song.artist.name) {
-            axios.get(`https://music-backend-fg40.onrender.com/${song.artist.name} `).then((response) => { if (response.data) { setData(response.data) } console.log(response) })
+            axios.get(`https://music-backend-fg40.onrender.com/suggestions/${song.artist.name} `).then((response) => { if (response.data) { setData(response.data) } console.log(response) })
                
         } else {
-            axios.get(`https://music-backend-fg40.onrender.com/${song.album.name} `).then((response) => { if (response.data) { setData(response.data) } console.log(response) })
+            axios.get(`https://music-backend-fg40.onrender.com/suggestions/${song.album.name} `).then((response) => { if (response.data) { setData(response.data) } console.log(response) })
         }
     }, [song]);
 
