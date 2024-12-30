@@ -65,7 +65,7 @@ function Player() {
                 </div>
                 </div>
                 <div className='w-full'>
-                 {audioSource && <audio className='w-full' src={audioSource} controls />}
+                 {audioSource && <audio className='w-full' autoPlay src={audioSource} controls />}
                 </div>
             </div>
 
