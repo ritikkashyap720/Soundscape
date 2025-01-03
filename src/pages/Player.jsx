@@ -66,14 +66,6 @@ function Player() {
                 </div>
                 <div className='w-full'>
                  {audioSource && <audio className='w-full' autoPlay src={audioSource} controls />}
-                    {song && <iframe 
-    width="560" 
-    height="315" 
-    src={"https://www.youtube.com/embed/"+song.videoId} 
-    frameborder="0" 
-    allow="autoplay; encrypted-media" 
-    allowfullscreen>
-</iframe>}
                 </div>
             </div>
 
