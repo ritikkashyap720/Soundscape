@@ -1,5 +1,5 @@
 import React,{useContext} from 'react'
-import MusicPlaceholder from "../assets/images/MusicPlaceholder.png"
+import MusicPlaceholder from "../assets/images/Musicplaceholder.png"
 import { NowPlayingContext } from '../context/NowPlayingContext';
 
 function MusicTiles({ songData }) {

@@ -28,7 +28,7 @@ function Navbar() {
             </div>
             <form className="flex-none gap-3 " onSubmit={(e) => { handleSearch(e) }}>
                 <div className="form-control ">
-                    <input type="text" placeholder={`${search ? "searching for - " + search : "Search"}`} name='search' className="input input-bordered w-24 md:w-auto bg-gray-900 w-full" />
+                    <input type="text" placeholder={`${search ? "searching for - " + search : "Search"}`} name='search' className="input input-bordered md:w-auto bg-gray-900 w-full" />
                 </div>
                 <button type='submit' className="btn btn-info"><SearchIcon /></button>
             </form>

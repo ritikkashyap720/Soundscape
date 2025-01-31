@@ -5,7 +5,6 @@ import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import React from 'react';
 import { NowPlayingContext } from '../context/NowPlayingContext';
-import MusicTiles from '../components/MusicTiles';
 import { useNavigate } from 'react-router-dom';
 import AlbumTiles from '../components/AlbumTiles';
 
