@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { NowPlayingContext } from '../context/NowPlayingContext';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import MusicPlaceholder from "../assets/images/MusicPlaceholder.png"
+import MusicPlaceholder from "../assets/images/MusicPlaceholder"
 
 function Card({ data }) {
     const { setSongValue, song } = useContext(NowPlayingContext);

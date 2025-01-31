@@ -1,5 +1,5 @@
 import React from 'react'
-import MusicPlaceholder from "../assets/images/MusicPlaceholder.png"
+import MusicPlaceholder from "../assets/images/Musicplaceholder"
 
 function AlbumTiles({ album }) {
     console.log(album.type)
