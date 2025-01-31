@@ -6,7 +6,6 @@ import PauseIcon from '@mui/icons-material/Pause';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import LoopIcon from '@mui/icons-material/Loop';
-import MusicPlaceholder from "../assets/images/MusicPlaceholder.png"
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
