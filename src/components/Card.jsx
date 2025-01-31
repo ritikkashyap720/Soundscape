@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { NowPlayingContext } from '../context/NowPlayingContext';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import MusicPlaceholder from "../assets/images/MusicPlaceholder"
 
 function Card({ data }) {
     const { setSongValue, song } = useContext(NowPlayingContext);
@@ -11,7 +10,7 @@ function Card({ data }) {
         <div onClick={() => setSongValue(data)} className="card card-compact bg-base-100 w-96 shadow-xl hover:bg-red-200 overflow-hidden transition hover:text-black ">
             <figure className='' >
                 <img className='w-full'
-                    src={data.thumbnailUrl ? data.thumbnailUrl : MusicPlaceholder}
+                    src={data.thumbnailUrl ? data.thumbnailUrl : ""}
                     alt={data.artists[0].name}  
                 />
             </figure>
