@@ -18,12 +18,13 @@ import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
 import { green } from '@mui/material/colors';
 
 function MusicPlayerBottom() {
-    const { song, findSongByYoutubeId, setSongsRecommendations, songsRecommendations, addSong, removeSong } = useContext(NowPlayingContext)
+    const { song, findSongByYoutubeId, setSongsRecommendations, songsRecommendations, addSong, removeSong,localSongs } = useContext(NowPlayingContext)
     const [audioSource, setAudioSource] = useState(null);
     const [isExpanded, setIsExpended] = useState(false);
     const [isMusicListExpanded, setisMusicListExpanded] = useState(false);
     const navigate = useNavigate();
     const BASE_URL = "http://localhost:8000"
+    const [songThumnails,setSongThumnails] = useState(null);
 
     const [isPlaying, setIsPlaying] = useState(true);
     const [progress, setProgress] = useState(0); // Progress percentage
@@ -33,7 +34,11 @@ function MusicPlayerBottom() {
     const audioRef = useRef(null);
     // local storage check
     const [isSaved,setIsSaved] = useState(false)
-     
+    useEffect(()=>{
+        if(song){
+            setIsSaved(findSongByYoutubeId(song.youtubeId))
+        }
+    },[localSongs,song])
 
     useEffect(() => {
         setDuration(0)
@@ -41,14 +46,17 @@ function MusicPlayerBottom() {
         setAudioSource(null)
         setisMusicListExpanded(false)
         if (song) {
-            setIsSaved(findSongByYoutubeId(song.youtubeId))
-            axios.get(`${BASE_URL}/play/${song.youtubeId}`).then((response) => {
-                if (response.data.audio) {
-                    setAudioSource(response.data.audio[1].url)
-                    setIsPlaying(true)
-                }
-            })
+            // axios.get(`${BASE_URL}/play/${song.youtubeId}`).then((response) => {
+            //     if (response.data.audio) {
+            //         setAudioSource(response.data.audio[1].url)
+            //     }
+            // })
+            setAudioSource(`${BASE_URL}/play/${song.youtubeId}`);
+            if(audioSource){
+                setIsPlaying(true)
+            }
             axios.get(`${BASE_URL}/suggestions/${song.youtubeId} `).then((response) => { if (response.data) setSongsRecommendations(response.data) })
+            axios.get(`${BASE_URL}/getSongDetails/${song.youtubeId} `).then((response) => { if (response.data) setSongThumnails(response.data.thumbnailUrl) })
         }
     }, [song])
 
@@ -125,6 +133,7 @@ function MusicPlayerBottom() {
                     ref={audioRef}
                     src={audioSource}
                     onTimeUpdate={updateProgress}
+                    className='z-50 block'
                     autoPlay
                 />}
                 {isExpanded ? <div className='w-full lg:h-screen h-[100%] fixed top-0 z-30 flex flex-row transition-all '>
@@ -133,22 +142,22 @@ function MusicPlayerBottom() {
                         <div className="h-full w-[100%] lg:w-[40%] md:w-[40%] fixed top-0 blur-[40px] z-10 overflow-hidden">
 
                             <img
-                                src={song.thumbnailUrl ? song.thumbnailUrl : MusicPlaceholder}
+                                src={songThumnails ? songThumnails : ""}
                                 alt="Album Cover"
                                 className='h-[50%] w-[100%]'
                             />
                         </div>
                         <div className='flex flex-col justify-center h-full items-center min-w-[300px] overflow-y-auto w-[100%] p-5 z-40'>
                             <img
-                                src={song.thumbnailUrl ? song.thumbnailUrl : MusicPlaceholder}
+                                src={songThumnails ? songThumnails : ""}
                                 alt="Album Cover"
-                                className="w-[80%] rounded-[20px] max-w-md"
+                                className="w-[100%] aspect-square object-cover rounded-[20px] max-w-md"
                             />
                             <div className="text-center mt-8">
                                 <p className="text-lg font-bold text-white">{song.title}</p>
                                 <p className="text-sm text-white">{song.artists.map((artist, index) => <span key={index}>{artist.name}{index < song.artists.length - 1 && " | "}</span>)}</p>
                             </div>
-                            <div className="my-2 flex w-[80%] items-center max-w-md">
+                            <div className="my-2 flex w-[100%] items-center max-w-md">
                                 <div className="text-xs text-white mx-4">
                                     <p>{formatTime(currentTime)}</p>
                                 </div>
@@ -164,7 +173,7 @@ function MusicPlayerBottom() {
                                     {song.duration.label}
                                 </div>
                             </div>
-                            <div className="flex items-center space-x-4 w-[80%] justify-evenly mt-6 max-w-md">
+                            <div className="flex items-center space-x-4 w-[100%] justify-evenly mt-6 max-w-md">
                                 {isSaved ? <button className='btn-circle hover:text-gray-300 transition' onClick={() => {  removeSong(song.youtubeId);setIsSaved(false) }}><FavoriteRoundedIcon x={{ fontSize: 30}}  className='text-green-300' /></button> : <button onClick={() => {addSong(song); setIsSaved(true) }} className='btn-circle hover:text-gray-300 transition'><FavoriteBorderIcon x={{ fontSize: 30 }} /></button>}
                                 <button className='btn-circle hover:text-gray-300 transition' onClick={handleSkipBack}>
                                     <SkipPreviousIcon sx={{ fontSize: 30 }} />
@@ -197,7 +206,7 @@ function MusicPlayerBottom() {
                             <ExpandLessIcon />
                         </button>
                         <img
-                            src={song.thumbnailUrl ? song.thumbnailUrl : MusicPlaceholder}
+                            src={songThumnails ? songThumnails : ""}
                             alt="Album Cover"
                             className="w-12 h-12 rounded-md"
                         />

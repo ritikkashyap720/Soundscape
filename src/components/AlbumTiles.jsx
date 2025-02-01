@@ -18,7 +18,7 @@ function AlbumTiles({ album }) {
     if (album.type != "Single") {
         return (
             <div onClick={() => { searchMusicFromAlbum(album.albumId) }} className='flex flex-col gap-3 items-center justify-center w-fit h-fit cursor-pointer'>
-                <img className='h-40 rounded-full' src={album.thumbnailUrl ? album.thumbnailUrl : ""} alt={album.artist} />
+                <img className='h-40 rounded-full aspect-square object-cover' src={album.thumbnailUrl ? album.thumbnailUrl : ""} alt={album.artist} />
                 <div className='flex flex-col items-center'>
                     <p className='line-clamp-1 max-w-[20ch] text-white'>{album.title}</p>
                     <p className='line-clamp-1 max-w-[40ch]'>{album.artist}</p>
