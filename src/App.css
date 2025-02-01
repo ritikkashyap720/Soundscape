@@ -17,3 +17,10 @@
 .range {
     height: 5px;
 }
+
+.mobileSidebarMenu{
+    position: relative;
+    transform: rotateZ(-90deg);
+    top: 47px;
+    right: 48px;
+}

@@ -17,7 +17,7 @@ function Songs() {
       axios.get(`${BASE_URL}/${search}`).then((response) => {
         setSongsListValue(response.data);
       })
-    }else{
+    } else {
       navigate(-1)
     }
   }, [search])
@@ -26,8 +26,12 @@ function Songs() {
       <Navbar />
       <div className='w-full flex flex-row relative'>
         <Sidebar />
-        <div className={`${song ? "h-[calc(100svh-168px)]" : "h-[calc(100svh-88px)]"} flex flex-col gap-4 p-4 overflow-y-auto mt-[88px] w-full`}>
-          {songsList && songsList.map((video, index) => <MusicTiles key={index} songData={video} />)}
+
+        <div className={`${song ? "h-[calc(100svh-168px)]" : "h-[calc(100svh-88px)]"} flex flex-col mt-[88px] w-full`}>
+          <p className='py-2 px-4 text-white font-semibold'>Songs</p>
+          <div className=' flex flex-col gap-4 p-4 overflow-y-auto'>
+            {songsList && songsList.map((video, index) => <MusicTiles key={index} songData={video} />)}
+          </div>
         </div>
       </div>
 

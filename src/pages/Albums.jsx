@@ -22,15 +22,18 @@ function Albums() {
         } else {
             navigate(-1)
         }
-    },[search])
+    }, [search])
 
     return (
         <div className='overflow-hidden'>
             <Navbar />
             <div className='w-full flex flex-row relative'>
                 <Sidebar />
-                <div className={`${song ? "h-[calc(100svh-168px)]" : "h-[calc(100svh-88px)]"} flex flex-wrap  gap-4 p-4 overflow-y-auto mt-[88px] w-full content-start`}>
+                <div className={`${song ? "h-[calc(100svh-168px)]" : "h-[calc(100svh-88px)]"} flex flex-col mt-[88px] w-full`}>
+                    <p className='py-2 px-4 text-white font-semibold'>Albums</p>
+                    <div className=' flex flex-wrap  gap-4 p-4 overflow-y-auto w-full content-start'>
                     {albums && albums.map((album, index) => <AlbumTiles key={index} album={album} />)}
+                    </div>
                 </div>
             </div>
 
