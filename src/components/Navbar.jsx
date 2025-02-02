@@ -4,6 +4,7 @@ import { NowPlayingContext } from '../context/NowPlayingContext';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 
+
 function Navbar() {
     const BASE_URL = "http://localhost:8000"
     const { setSongsListValue, search, setSearch } = useContext(NowPlayingContext)
@@ -28,9 +29,9 @@ function Navbar() {
             </div>
             <form className="flex gap-2" onSubmit={(e) => { handleSearch(e) }}>
                 <div className="form-control ">
-                    <input type="text" placeholder={`${search ? "searching for - " + search : "Search"}`} name='search' className="input input-bordered md:w-auto bg-gray-900 w-full" />
+                    <input type="text" placeholder={`${search ? "searching for - " + search : "Search"}`} name='search' className="input input-bordered md:w-auto bg-gray-900 w-full " />
                 </div>
-                <button type='submit' className=" btn-info"><SearchIcon /></button>
+                <button type='submit' className="p-3 bg-blue-400 text-black rounded-lg"><SearchIcon /></button>
             </form>
         </div>
     )

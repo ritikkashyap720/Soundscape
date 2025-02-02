@@ -8,8 +8,8 @@
 
 .range::-webkit-slider-thumb {
     background: #3d94e6;
-    height: 0px;
-    width: 0px;
+    height: 8px;
+    width: 8px;
     border-radius: 6px;
     --range-shdw: #3d94e6;
     border: none;
@@ -18,7 +18,7 @@
     height: 10px;
     width: 100%;
     border-radius: var(--rounded-box, 1rem /* 16px */);
-    background-color: rgb(228, 228, 228);
+    background-color: #272a42;
 }
 
 
