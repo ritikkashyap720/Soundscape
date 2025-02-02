@@ -30,7 +30,7 @@ function Navbar() {
                 <div className="form-control ">
                     <input type="text" placeholder={`${search ? "searching for - " + search : "Search"}`} name='search' className="input input-bordered md:w-auto bg-gray-900 w-full" />
                 </div>
-                <button type='submit' className="btn btn-info"><SearchIcon /></button>
+                <button type='submit' className=" btn-info"><SearchIcon /></button>
             </form>
         </div>
     )

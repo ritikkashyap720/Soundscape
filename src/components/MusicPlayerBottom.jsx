@@ -25,13 +25,13 @@ function MusicPlayerBottom() {
     const navigate = useNavigate();
     const BASE_URL = "http://localhost:8000"
     const [songThumnails,setSongThumnails] = useState(null);
-
     const [isPlaying, setIsPlaying] = useState(true);
     const [progress, setProgress] = useState(0); // Progress percentage
     const [duration, setDuration] = useState(0); // Total duration of the audio in seconds
     const [currentTime, setCurrentTime] = useState(0); // Current time of the audio in seconds
     const [volume, setVolume] = useState(100); // Volume percentage
     const audioRef = useRef(null);
+    const [loopAudio,setLoopAudio] = useState(false)
     // local storage check
     const [isSaved,setIsSaved] = useState(false)
     useEffect(()=>{
@@ -46,12 +46,15 @@ function MusicPlayerBottom() {
         setAudioSource(null)
         setisMusicListExpanded(false)
         if (song) {
-            // axios.get(`${BASE_URL}/play/${song.youtubeId}`).then((response) => {
-            //     if (response.data.audio) {
-            //         setAudioSource(response.data.audio[1].url)
-            //     }
-            // })
-            setAudioSource(`${BASE_URL}/play/${song.youtubeId}`);
+            axios.get(`${BASE_URL}/play/${song.youtubeId}`).then((response) => {
+                if (response.data.audio) {
+                   setAudioSource(response.data.audio.url)
+                //    console.log(response.data.audio)
+                }
+            })
+            // const audioStream = `${BASE_URL}/play/${song.youtubeId}`;
+            // setAudioSource(audioStream);
+            // axios.get(audioStream).then((resonse)=>console.log(resonse))
             if(audioSource){
                 setIsPlaying(true)
             }
@@ -128,19 +131,19 @@ function MusicPlayerBottom() {
     };
     if (song) {
         return (
-            <div className={`${isExpanded ? "h-full top-0 fixed" : "h-[80px] bottom-0 fixed"}   z-30 transition-all w-full duration-[400ms]`}>
+            <div className={`${isExpanded ? "h-full top-0 fixed" : "h-[80px] bottom-0 fixed"}   z-30 transition-all w-full duration-[300ms]`}>
                 {audioSource && <audio
                     ref={audioRef}
                     src={audioSource}
                     onTimeUpdate={updateProgress}
-                    className='z-50 block'
+                    className=''
                     autoPlay
+                    loop={loopAudio}
                 />}
                 {isExpanded ? <div className='w-full lg:h-screen h-[100%] fixed top-0 z-30 flex flex-row transition-all '>
                     <button className='flex items-center justify-center p-1 fixed top-6 left-6 z-50 outline-none border-none text-white cursor-pointer hover:gray-300' onClick={() => { setIsExpended(false) }}><KeyboardArrowDownIcon sx={{ fontSize: 40 }} /></button>
                     <div className='w-[100%] lg:w-[40%] md:w-[40%] bg-gray-900 flex justify-center items-center'>
                         <div className="h-full w-[100%] lg:w-[40%] md:w-[40%] fixed top-0 blur-[40px] z-10 overflow-hidden">
-
                             <img
                                 src={songThumnails ? songThumnails : ""}
                                 alt="Album Cover"
@@ -174,18 +177,18 @@ function MusicPlayerBottom() {
                                 </div>
                             </div>
                             <div className="flex items-center space-x-4 w-[100%] justify-evenly mt-6 max-w-md">
-                                {isSaved ? <button className='btn-circle hover:text-gray-300 transition' onClick={() => {  removeSong(song.youtubeId);setIsSaved(false) }}><FavoriteRoundedIcon x={{ fontSize: 30}}  className='text-green-300' /></button> : <button onClick={() => {addSong(song); setIsSaved(true) }} className='btn-circle hover:text-gray-300 transition'><FavoriteBorderIcon x={{ fontSize: 30 }} /></button>}
+                                {isSaved ? <button className='btn hover:text-gray-300 transition' onClick={() => {  removeSong(song.youtubeId);setIsSaved(false) }}><FavoriteRoundedIcon x={{ fontSize: 30}}  className='text-green-300' /></button> : <button onClick={() => {addSong(song); setIsSaved(true) }} className='btn hover:text-gray-300 transition'><FavoriteBorderIcon x={{ fontSize: 30 }} /></button>}
                                 <button className='btn-circle hover:text-gray-300 transition' onClick={handleSkipBack}>
                                     <SkipPreviousIcon sx={{ fontSize: 30 }} />
                                 </button>
-                                <button className='btn bg-white text-black btn-circle hover:bg-gray-300 transition' onClick={togglePlayPause}>
+                                <button className='bg-white text-black btn-circle hover:bg-gray-300 transition' onClick={togglePlayPause}>
                                     {isPlaying ? <PauseIcon sx={{ fontSize: 30 }} /> : <PlayArrowIcon sx={{ fontSize: 30 }} />}
                                 </button>
                                 <button className='btn-circle hover:text-gray-300 transition' onClick={handleSkipForward}>
                                     <SkipNextIcon sx={{ fontSize: 30 }} />
                                 </button>
-                                <button className='btn-circle hover:text-gray-300 transition'>
-                                    <LoopIcon sx={{ fontSize: 30 }} />
+                                <button className={`btn hover:text-gray-300 transition ${loopAudio&&"text-green-300"}`} onClick={()=>{setLoopAudio(!loopAudio)}}>
+                                    <LoopIcon sx={{ fontSize: 30 }}  />
                                 </button>
                             </div>
                         </div>
@@ -200,15 +203,15 @@ function MusicPlayerBottom() {
                     <div className='bg-gray-900 h-full lg:w-[60%] md:w-[60%] hidden md:flex flex-col gap-4 p-4 overflow-y-auto'>
                         {songsRecommendations && songsRecommendations.map((song, index) => <MusicTiles key={index} songData={song} />)}
                     </div>
-                </div> : <div className='flex items-center p-4 bg-gray-900 shadow-md rounded-t-[14px] w-full z-30 text-white justify-between gap-2'>
+                </div> : <div onClick={() => { setIsExpended(true) }} className='flex items-center p-4 bg-gray-900 shadow-md rounded-t-[14px] w-full z-30 text-white justify-between gap-2'>
                     <div className="flex items-center space-x-4">
-                        <button onClick={() => { setIsExpended(true) }}>
+                        <button className='btn'>
                             <ExpandLessIcon />
                         </button>
                         <img
                             src={songThumnails ? songThumnails : ""}
                             alt="Album Cover"
-                            className="w-12 h-12 rounded-md"
+                            className="h-12 object-cover aspect-square rounded-md"
                         />
                         <div className="text-left">
                             <p className="text-sm font-semibold line-clamp-1 lg:max-w-[20ch] ">{song.title}</p>
@@ -225,7 +228,8 @@ function MusicPlayerBottom() {
                             min="0"
                             max="100"
                             value={progress}
-                            onChange={(e) => { handleProgressChange(e) }}
+                            onClick={(e)=>e.stopPropagation()}
+                            onChange={(e) => { e.stopPropagation(); handleProgressChange(e) }}
                             className="range range-xs"
                         />
                     </div>
@@ -235,16 +239,16 @@ function MusicPlayerBottom() {
 
                     {/* Controls */}
                     <div className="items-center space-x-4 hidden sm:hidden lg:flex">
-                        <button variant="ghost" size="sm" onClick={handleSkipBack}>
+                        <button variant="ghost" className='btn' size="sm" onClick={(e)=>{e.stopPropagation();handleSkipBack()}}>
                             <SkipPreviousIcon />
                         </button>
-                        <button variant="ghost" size="sm" onClick={togglePlayPause}>
+                        <button variant="ghost" className='btn' size="sm" onClick={(e)=>{togglePlayPause();e.stopPropagation()}}>
                             {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
                         </button>
-                        <button variant="ghost" size="sm" onClick={handleSkipForward}>
+                        <button variant="ghost" className='btn' size="sm" onClick={(e)=>{e.stopPropagation();handleSkipForward()}}>
                             <SkipNextIcon />
                         </button>
-                        <button variant="ghost" size="sm">
+                        <button variant="ghost" size="sm" className={`btn ${loopAudio&&"text-green-300"}`}   onClick={(e)=>{setLoopAudio(!loopAudio);e.stopPropagation()}}>
                             <LoopIcon />
                         </button>
                     </div>
@@ -255,7 +259,8 @@ function MusicPlayerBottom() {
                             min="0"
                             max="100"
                             value={volume}
-                            onChange={handleVolumeChange}
+                            onClick={(e)=>e.stopPropagation()}
+                            onChange={()=>{handleVolumeChange}}
                             className=" range range-xs w-20 h-1 bg-gray-300 rounded-full"
                         />
                         <button  >
@@ -263,10 +268,10 @@ function MusicPlayerBottom() {
                         </button>
                     </div>
                     <div className="flex items-center space-x-4">
-                        <button variant="ghost" size="sm" className=' lg:hidden' onClick={togglePlayPause}>
+                        <button variant="ghost" size="sm" className='btn bg-transparent border-0 lg:hidden' onClick={(e)=>{e.stopPropagation();togglePlayPause}}>
                             {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
                         </button>
-                        {isSaved ? <button className='hover:text-gray-300 transition' onClick={() => {  removeSong(song.youtubeId);setIsSaved(false) }}><FavoriteRoundedIcon x={{ fontSize: 30}}  className='text-green-300' /></button> : <button onClick={() => {addSong(song); setIsSaved(true) }} className='hover:text-gray-300 transition'><FavoriteBorderIcon x={{ fontSize: 30 }} /></button>}
+                        {isSaved ? <button className='btn bg-transparent hover:text-gray-300 transition' onClick={(e) => { e.stopPropagation(); removeSong(song.youtubeId);setIsSaved(false) }}><FavoriteRoundedIcon x={{ fontSize: 30}}  className='text-green-300' /></button> : <button onClick={(e) => { e.stopPropagation();addSong(song); setIsSaved(true) }} className='hover:text-gray-300 transition'><FavoriteBorderIcon x={{ fontSize: 30 }} /></button>}
                     </div>
                 </div>}
             </div>
