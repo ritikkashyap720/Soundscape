@@ -19,7 +19,7 @@ import { useLocation } from "react-router-dom";
 
 
 function MusicPlayerBottom() {
-    const { song, findSongByYoutubeId, setSongsRecommendations, songsRecommendations, addSong, removeSong, localSongs } = useContext(NowPlayingContext)
+    const { song, findSongByYoutubeId, setSongValue, setSongsRecommendations, songsRecommendations, addSong, removeSong, localSongs, playLocalSongs } = useContext(NowPlayingContext)
     const [audioSource, setAudioSource] = useState(null);
     const [isExpanded, setIsExpended] = useState(false);
     const [isMusicListExpanded, setisMusicListExpanded] = useState(false);
@@ -70,18 +70,20 @@ function MusicPlayerBottom() {
             if (audioSource) {
                 setIsPlaying(true)
             }
-
-           
-            axios.get(`${BASE_URL}/suggestions/${song.youtubeId} `).then((response) => { if (response.data) setSongsRecommendations(response.data) })
+            if (playLocalSongs) {
+                setSongsRecommendations(localSongs);
+            } else {
+                axios.get(`${BASE_URL}/suggestions/${song.youtubeId} `).then((response) => { if (response.data) setSongsRecommendations(response.data) })
+            }
             axios.get(`${BASE_URL}/getSongDetails/${song.youtubeId} `).then((response) => { if (response.data) setSongThumnails(response.data.thumbnailUrl) })
         }
     }, [song])
 
-    useEffect(()=>{
-        if(audioRef.current){
-            audioRef.current.volume = volume/100;
+    useEffect(() => {
+        if (audioRef.current) {
+            audioRef.current.volume = volume / 100;
         }
-    },[audioRef.current])
+    }, [audioRef.current])
 
     const togglePlayPause = () => {
         if (audioRef.current) {
@@ -95,17 +97,30 @@ function MusicPlayerBottom() {
     };
 
     const handleSkipBack = () => {
-        if (audioRef.current) {
-            audioRef.current.currentTime = Math.max(audioRef.current.currentTime - 10, 0);
+        if (playLocalSongs) {
+            const currentIndex = songsRecommendations.findIndex(item => item.youtubeId == song.youtubeId)
+            if (currentIndex == 0) {
+                setSongValue(songsRecommendations[songsRecommendations.length - 1])
+            } else {
+                setSongValue(songsRecommendations[currentIndex-1])
+            }
+        }
+        else if (songsRecommendations) {
+            setSongValue(songsRecommendations[0]);
         }
     };
 
     const handleSkipForward = () => {
-        if (audioRef.current) {
-            audioRef.current.currentTime = Math.min(
-                audioRef.current.currentTime + 10,
-                audioRef.current.duration
-            );
+
+        if (playLocalSongs) {
+            const currentIndex = songsRecommendations.findIndex(item => item.youtubeId == song.youtubeId)
+            if (currentIndex == songsRecommendations.length - 1) {
+                setSongValue(songsRecommendations[0])
+            } else {
+                setSongValue(songsRecommendations[currentIndex + 1])
+            }
+        } else if (songsRecommendations) {
+            setSongValue(songsRecommendations[1]);
         }
     };
 
@@ -130,6 +145,9 @@ function MusicPlayerBottom() {
             const current = audioRef.current.currentTime;
             setCurrentTime(current);
             setProgress((current / audioRef.current.duration) * 100);
+        }
+        if (Math.floor(audioRef.current.currentTime) == song.duration.totalSeconds - 1) {
+            handleSkipForward()
         }
     };
 

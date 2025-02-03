@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { NowPlayingContext } from '../context/NowPlayingContext';
 import FavoriteBorderRoundedIcon from '@mui/icons-material/FavoriteBorderRounded';
 import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
-import AlbumIcon from '@mui/icons-material/Album';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 function MusicTiles({ songData }) {
   const { setSongValue, song,addSong,localSongs,findSongByYoutubeId,removeSong } = useContext(NowPlayingContext);
@@ -20,6 +20,7 @@ function MusicTiles({ songData }) {
       <div className='flex gap-2 items-center'>
         <span className='item-end'>{songData.duration.label}</span>
         {isSaved?<button className='btn' onClick={(e) => { e.stopPropagation(); removeSong(songData.youtubeId) }}><FavoriteRoundedIcon className='text-green-300 '/></button>:<button className='btn' onClick={(e) => { e.stopPropagation(); addSong(songData) }}><FavoriteBorderRoundedIcon /></button>}
+        {/* <button><MoreVertIcon/></button> */}
       </div>
     </div>
   )

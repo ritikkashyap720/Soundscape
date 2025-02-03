@@ -46,8 +46,11 @@ export const NowPlayingContextProvider = ({ children }) => {
         return localSongs.some(song => song.youtubeId === youtubeId);
       };
 
+    // play local song
+    const [playLocalSongs, setPlayLocalSong] = useState(false);  
+
     return (
-        <NowPlayingContext.Provider value={{ song, setSongValue, songsList, setSongsListValue, songsRecommendations, setSongsRecommendations, search, setSearch,localSongs,addSong,removeSong,findSongByYoutubeId }}>
+        <NowPlayingContext.Provider value={{ song, setSongValue, songsList, setSongsListValue, songsRecommendations, setSongsRecommendations, search, setSearch,localSongs,addSong,removeSong,findSongByYoutubeId,playLocalSongs,setPlayLocalSong }}>
             {children}
         </NowPlayingContext.Provider>
     )
