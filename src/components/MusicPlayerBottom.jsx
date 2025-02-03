@@ -155,7 +155,7 @@ function MusicPlayerBottom() {
                     autoPlay
                 />}
                 {isExpanded ? <div className='w-full lg:h-screen h-[100%] fixed top-0 z-30 flex flex-row transition-all '>
-                    <button className='flex items-center justify-center p-1 fixed top-6 left-6 z-50 outline-none border-none text-white cursor-pointer hover:gray-300' onClick={() => { setIsExpended(false); navigate("/",{replace:true}) }}><KeyboardArrowDownIcon sx={{ fontSize: 40 }} /></button>
+                    <button className='flex items-center justify-center p-1 fixed top-6 left-6 z-50 outline-none border-none text-white cursor-pointer hover:gray-300' onClick={() => { setIsExpended(false); navigate(-1) }}><KeyboardArrowDownIcon sx={{ fontSize: 40 }} /></button>
                     <div className='w-[100%] lg:w-[40%] md:w-[40%] bg-gray-900 flex justify-center items-center'>
                         <div className="h-full w-[100%] lg:w-[40%] md:w-[40%] fixed top-0 blur-[40px] z-10 overflow-hidden">
                             <img
@@ -219,7 +219,7 @@ function MusicPlayerBottom() {
                     <div className='bg-gray-900 h-full lg:w-[60%] md:w-[60%] hidden md:flex flex-col gap-4 p-4 overflow-y-auto'>
                         {songsRecommendations && songsRecommendations.map((song, index) => <MusicTiles key={index} songData={song} />)}
                     </div>
-                </div> : <div onClick={() => { setIsExpended(true); navigate("#player",{replace:true}) }} className='flex items-center p-4 bg-gray-900 shadow-md rounded-t-[14px] w-full z-30 text-white justify-between gap-2'>
+                </div> : <div onClick={() => { setIsExpended(true); navigate("#player") }} className='flex items-center p-4 bg-gray-900 shadow-md rounded-t-[14px] w-full z-30 text-white justify-between gap-2'>
                     <div className="flex items-center space-x-4">
                         <button className='btn'>
                             <ExpandLessIcon />
