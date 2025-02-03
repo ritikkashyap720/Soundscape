@@ -23,9 +23,9 @@ function Navbar() {
 
 
     return (
-        <div className="navbar bg-[#001919] p-5 fixed top-0 z-10 shadow-lg">
+        <div className="navbar bg-[#001919] p-5  fixed top-0 z-10 shadow-lg">
             <div className="flex-1">
-                <Link className="text-xl mx-4 font-semibold text-white" to={"/"}>Music</Link>
+                <Link className="text-xl font-semibold text-white flex items-center gap-2" to={"/"}><img className='w-12' src='/images/music-192x192.png' alt="music"/><p className='hidden lg:block'>Music</p></Link>
             </div>
             <form className="flex gap-2" onSubmit={(e) => { handleSearch(e) }}>
                 <div className="form-control ">

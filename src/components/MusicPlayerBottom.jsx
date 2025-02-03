@@ -15,7 +15,6 @@ import MusicTiles from './MusicTiles';
 import { replace, useNavigate } from 'react-router-dom';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
-import { green } from '@mui/material/colors';
 import { useLocation } from "react-router-dom";
 
 
@@ -83,17 +82,6 @@ function MusicPlayerBottom() {
             audioRef.current.volume = volume/100;
         }
     },[audioRef.current])
-
-
-    // useEffect(() => {
-    //     if (audioRef.current) {
-    //         const updateDuration = () => setDuration(audioRef.current.duration);
-    //         audioRef.current.addEventListener("loadedmetadata", updateDuration);
-    //         // audioRef.current.volume = volume;
-    //         console.log(volume)
-    //         return () => audioRef.current.removeEventListener("loadedmetadata", updateDuration);
-    //     }
-    // }, [song]);
 
     const togglePlayPause = () => {
         if (audioRef.current) {
