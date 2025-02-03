@@ -17,7 +17,6 @@ function Albums() {
         if (search) {
             axios.get(`${BASE_URL}/albums/${search}`).then((response) => {
                 setAlbums(response.data);
-                console.log(response.data)
             })
         } else {
             navigate(-1)
