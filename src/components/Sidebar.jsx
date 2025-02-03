@@ -39,17 +39,17 @@ function Sidebar() {
 
 
   return (
-    <div className={`h-[calc(100svh-88px)] ${smallsidebar?"w-[80px]":"w-52"} z-20 mt-[88px] bg-gray-900 flex flex-col items-center transition-all`}>
+    <div className={`h-[calc(100svh-90px)] ${smallsidebar?"w-[80px]":"w-52"} mt-[90px] bg-[#001919] flex flex-col items-end transition-all`}>
       {smallsidebar ? <>{search && <>
-        <Link className={`${songs && "bg-gray-950"} font-bold hover:bg-gray-950 w-full text-center p-4 transition-all`} to={"/songs"}><AudiotrackRoundedIcon/></Link>
-        <Link className={`${albums && "bg-gray-950"} font-bold hover:bg-gray-950 w-full text-center p-4 transition-all`} to={"/albums"}><LibraryMusicRoundedIcon/></Link>
+        <Link className={`${songs && "text-green-300"} font-bold hover:text-green-300 w-[90%] text-center p-4 rounded-s-lg transition-all`} to={"/songs"}><AudiotrackRoundedIcon/></Link>
+        <Link className={`${albums && "text-green-300"} font-bold hover:text-green-300 w-[90%] text-center p-4 rounded-s-lg transition-all`} to={"/albums"}><LibraryMusicRoundedIcon/></Link>
       </>}
-        <Link className={`${yourSongs && "bg-gray-950"} font-bold hover:bg-gray-950 w-full text-center p-4 transition-all`} to={"/"}><InsertEmoticonRoundedIcon/></Link></> : <>
+        <Link className={`${yourSongs && "text-green-300"} font-bold hover:text-green-300 w-[90%] text-center p-4 rounded-s-lg transition-all`} to={"/"}><InsertEmoticonRoundedIcon/></Link></> : <>
         {search && <>
-          <Link className={`${songs && "bg-gray-950"} font-bold hover:bg-gray-950 w-full text-center p-4 transition-all`} to={"/songs"}>Songs</Link>
-          <Link className={`${albums && "bg-gray-950"} font-bold hover:bg-gray-950 w-full text-center p-4 transition-all`} to={"/albums"}>Albums</Link>
+          <Link className={`${songs && "text-green-300"} font-bold hover:text-green-300 w-[90%] text-center p-4  rounded-s-lg transition-all`} to={"/songs"}>Songs</Link>
+          <Link className={`${albums && "text-green-300"} font-bold hover:text-green-300 w-[90%] text-center p-4 rounded-s-lg transition-all`} to={"/albums"}>Albums</Link>
         </>}
-        <Link className={`${yourSongs && "bg-gray-950"} font-bold hover:bg-gray-950 w-full text-center p-4 transition-all`} to={"/"}>Your Songs</Link></>}
+        <Link className={`${yourSongs && "text-green-300"} font-bold hover:text-green-300 w-[90%] text-center p-4 rounded-s-lg transition-all`} to={"/"}>Your Songs</Link></>}
 
     </div>
   )

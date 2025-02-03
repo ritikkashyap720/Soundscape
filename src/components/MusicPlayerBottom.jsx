@@ -71,21 +71,29 @@ function MusicPlayerBottom() {
             if (audioSource) {
                 setIsPlaying(true)
             }
+
+           
             axios.get(`${BASE_URL}/suggestions/${song.youtubeId} `).then((response) => { if (response.data) setSongsRecommendations(response.data) })
             axios.get(`${BASE_URL}/getSongDetails/${song.youtubeId} `).then((response) => { if (response.data) setSongThumnails(response.data.thumbnailUrl) })
         }
     }, [song])
 
-
-
-
-    useEffect(() => {
-        if (audioRef.current) {
-            const updateDuration = () => setDuration(audioRef.current.duration);
-            audioRef.current.addEventListener("loadedmetadata", updateDuration);
-            return () => audioRef.current.removeEventListener("loadedmetadata", updateDuration);
+    useEffect(()=>{
+        if(audioRef.current){
+            audioRef.current.volume = volume/100;
         }
-    }, [song]);
+    },[audioRef.current])
+
+
+    // useEffect(() => {
+    //     if (audioRef.current) {
+    //         const updateDuration = () => setDuration(audioRef.current.duration);
+    //         audioRef.current.addEventListener("loadedmetadata", updateDuration);
+    //         // audioRef.current.volume = volume;
+    //         console.log(volume)
+    //         return () => audioRef.current.removeEventListener("loadedmetadata", updateDuration);
+    //     }
+    // }, [song]);
 
     const togglePlayPause = () => {
         if (audioRef.current) {
@@ -144,7 +152,7 @@ function MusicPlayerBottom() {
     };
     if (song) {
         return (
-            <div className={`${isExpanded ? "h-full top-0 fixed" : "h-[80px] bottom-0 fixed"}   z-30 transition-all w-full duration-[300ms]`}>
+            <div className={`${isExpanded ? "h-full top-0 fixed" : "h-[80px] bottom-0 fixed "}   z-30 transition-all w-full duration-[300ms]`}>
                 {audioSource && <audio
                     ref={audioRef}
                     src={audioSource}
@@ -155,7 +163,7 @@ function MusicPlayerBottom() {
                 />}
                 {isExpanded ? <div className='w-full lg:h-screen h-[100%] fixed top-0 z-30 flex flex-row'>
                     <button className='flex items-center justify-center p-1 fixed top-6 left-6 z-50 outline-none border-none text-white cursor-pointer hover:gray-300' onClick={() => { setIsExpended(false); navigate(-1) }}><KeyboardArrowDownIcon sx={{ fontSize: 40 }} /></button>
-                    <div className='w-[100%] lg:w-[40%] md:w-[40%] bg-gray-900 flex justify-center items-center'>
+                    <div className='w-[100%] lg:w-[40%] md:w-[40%] bg-[#001919] flex justify-center items-center'>
                         <div className="h-full w-[100%] lg:w-[40%] md:w-[40%] fixed top-0 blur-[40px] z-10 overflow-hidden">
                             <img
                                 src={songThumnails ? songThumnails : ""}
@@ -179,7 +187,7 @@ function MusicPlayerBottom() {
                                 <div className="text-xs text-white mx-4">
                                     {isLoading ? "00:00" : <p>{formatTime(currentTime)}</p>}
                                 </div>
-                                {isLoading ? <div className="skeleton bg-[#272a42] h-[5px] w-full"></div> : <input
+                                {isLoading ? <div className="skeleton bg-[#26683e] h-[5px] w-full"></div> : <input
                                     type="range"
                                     min="0"
                                     max="100"
@@ -208,17 +216,17 @@ function MusicPlayerBottom() {
                                 </button>
                             </div>
                         </div>
-                        <div className={`${isMusicListExpanded ? "h-full" : "h-14"} w-full fixed bottom-0 bg-gray-900  lg:hidden md:hidden z-50 transition-all`}>
+                        <div className={`${isMusicListExpanded ? "h-full" : "h-14"} w-full fixed bottom-0 bg-[#001919]  lg:hidden md:hidden z-50 transition-all`}>
                             <div className='overflow-y-scroll h-[calc(100%-54px)] p-4 flex flex-col gap-4 '>
                                 {songsRecommendations && songsRecommendations.map((song, index) => <MusicTiles key={index} songData={song} />)}
                             </div>
                             <button onClick={() => { setisMusicListExpanded(!isMusicListExpanded); isMusicListExpanded ? navigate(-1) : navigate("#musicsuggestion") }} className='text-white w-full h-14 fixed bottom-0 bg-inherit '>{isMusicListExpanded ? <ExpandMoreIcon /> : <QueueMusicIcon />}</button>
                         </div>
                     </div>
-                    <div className='bg-gray-900 h-full lg:w-[60%] md:w-[60%] hidden md:flex flex-col gap-4 p-4 overflow-y-auto'>
+                    <div className='bg-[#001919] h-full lg:w-[60%] md:w-[60%] hidden md:flex flex-col gap-4 p-4 overflow-y-auto'>
                         {songsRecommendations && songsRecommendations.map((song, index) => <MusicTiles key={index} songData={song} />)}
                     </div>
-                </div> : <div onClick={() => { setIsExpended(true); navigate("#player") }} className='flex items-center p-4 bg-gray-900 shadow-md rounded-t-[14px] w-full z-30 text-white justify-between gap-2'>
+                </div> : <div onClick={() => { setIsExpended(true); navigate("#player") }} className='flex items-center p-4 bg-[#001919] shadow-md border-t-[1px] border-green-300 w-full z-30 text-white justify-between gap-2'>
                     <div className="flex items-center space-x-4">
                         <button className='btn'>
                             <ExpandLessIcon />
@@ -239,7 +247,7 @@ function MusicPlayerBottom() {
                     </div>
                     {/* Progress Bar */}
                     <div className="flex-1 mx-1 hidden sm:hidden lg:flex">
-                        {isLoading ? <div className="skeleton w-full bg-[#272a42] h-[5px]"></div> : <input
+                        {isLoading ? <div className="skeleton w-full bg-[#26683e] h-[5px]"></div> : <input
                             type="range"
                             min="0"
                             max="100"

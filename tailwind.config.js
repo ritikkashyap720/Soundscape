@@ -10,8 +10,16 @@ export default {
   plugins: [
     require('daisyui'),
   ],
-  daisyui:{
-    themes:["dark"]
+  daisyui: {
+    themes: [{
+      mytheme: {
+        "primary": "#111827",
+        "secondary": "#111827",
+        "accent": "#111827",
+        "neutral": "#111827",
+        "base-100": "#001919",
+      },
+    }]
 
   }
 }

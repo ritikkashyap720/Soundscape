@@ -23,15 +23,15 @@ function Navbar() {
 
 
     return (
-        <div className="navbar bg-gray-900 p-5 fixed top-0 z-10 shadow-lg">
+        <div className="navbar bg-[#001919] p-5 fixed top-0 z-10 shadow-lg">
             <div className="flex-1">
                 <Link className="text-xl mx-4 font-semibold text-white" to={"/"}>Music</Link>
             </div>
             <form className="flex gap-2" onSubmit={(e) => { handleSearch(e) }}>
                 <div className="form-control ">
-                    <input type="text" placeholder={`${search ? "searching for - " + search : "Search"}`} name='search' className="input input-bordered md:w-auto bg-gray-900 w-full " />
+                    <input type="text" placeholder={`${search ? "searching for - " + search : "Search"}`} name='search' className="input input-bordered md:w-auto w-full " />
                 </div>
-                <button type='submit' className="p-3 bg-blue-400 text-black rounded-lg"><SearchIcon /></button>
+                <button type='submit' className="p-3 text-black bg-green-300 rounded-lg"><SearchIcon /></button>
             </form>
         </div>
     )

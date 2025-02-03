@@ -7,18 +7,18 @@
 }
 
 .range::-webkit-slider-thumb {
-    background: #3d94e6;
+    background: #34b965;
     height: 8px;
     width: 8px;
     border-radius: 6px;
-    --range-shdw: #3d94e6;
+    --range-shdw: #34b965;
     border: none;
 }
 .range::-webkit-slider-runnable-track {
     height: 10px;
     width: 100%;
     border-radius: var(--rounded-box, 1rem /* 16px */);
-    background-color: #3d4269;
+    background-color: #26683e;
 }
 
 

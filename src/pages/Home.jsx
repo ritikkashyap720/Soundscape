@@ -16,8 +16,8 @@ function Home() {
       <Navbar />
       <div className='w-full flex flex-row relative'>
         <Sidebar />
-        <div className={`${song ? "h-[calc(100svh-168px)]" : "h-[calc(100svh-88px)]"} flex flex-col mt-[88px] w-full`}>
-          <p className='py-2 px-4 text-white font-semibold'>Liked Songs</p>
+        <div className={`${song ? "h-[calc(100svh-168px)]" : "h-[calc(100svh-90px)]"} flex flex-col mt-[90px] w-full `}>
+          <p className='py-2 px-4 text-green-300 font-semibold'>Liked Songs</p>
           <div className=' flex flex-col gap-4 p-4 overflow-y-auto'>
             {localSongs ? localSongs.map((data, index) => <MusicTiles key={index} songData={data} />) : "No liked songs"}
           </div>
