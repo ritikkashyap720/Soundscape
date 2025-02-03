@@ -4,7 +4,7 @@
   "description": "Music",
   "theme_color": "#111827",
   "background_color": "#111827",
-  "display": "fullscreen",
+  "display": "minimal-ui",
   "start_url": "/",
   "icons": [
     {
