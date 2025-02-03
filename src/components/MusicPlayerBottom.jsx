@@ -12,10 +12,11 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import QueueMusicIcon from '@mui/icons-material/QueueMusic';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MusicTiles from './MusicTiles';
-import { useNavigate } from 'react-router-dom';
+import { replace, useNavigate } from 'react-router-dom';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
 import { green } from '@mui/material/colors';
+import { useLocation } from "react-router-dom";
 
 
 function MusicPlayerBottom() {
@@ -24,6 +25,7 @@ function MusicPlayerBottom() {
     const [isExpanded, setIsExpended] = useState(false);
     const [isMusicListExpanded, setisMusicListExpanded] = useState(false);
     const navigate = useNavigate();
+    const location = useLocation();
     const BASE_URL = "http://localhost:8000"
     const [songThumnails, setSongThumnails] = useState(null);
     const [isPlaying, setIsPlaying] = useState(true);
@@ -41,7 +43,19 @@ function MusicPlayerBottom() {
             setIsSaved(findSongByYoutubeId(song.youtubeId))
         }
     }, [localSongs, song])
-
+    // check location 
+    useEffect(() => {
+        console.log(location)
+        if (location.hash == "#player") {
+            setIsExpended(true);
+            setisMusicListExpanded(false)
+        } else if (location.hash == "#musicsuggestion") {
+            setisMusicListExpanded(true)
+        }else{
+            setIsExpended(false)
+        }
+    }, [location])
+    // load music suggestion
     useEffect(() => {
         setDuration(0)
         audioRef.current = null;
@@ -141,7 +155,7 @@ function MusicPlayerBottom() {
                     autoPlay
                 />}
                 {isExpanded ? <div className='w-full lg:h-screen h-[100%] fixed top-0 z-30 flex flex-row transition-all '>
-                    <button className='flex items-center justify-center p-1 fixed top-6 left-6 z-50 outline-none border-none text-white cursor-pointer hover:gray-300' onClick={() => { setIsExpended(false) }}><KeyboardArrowDownIcon sx={{ fontSize: 40 }} /></button>
+                    <button className='flex items-center justify-center p-1 fixed top-6 left-6 z-50 outline-none border-none text-white cursor-pointer hover:gray-300' onClick={() => { setIsExpended(false); navigate("/",{replace:true}) }}><KeyboardArrowDownIcon sx={{ fontSize: 40 }} /></button>
                     <div className='w-[100%] lg:w-[40%] md:w-[40%] bg-gray-900 flex justify-center items-center'>
                         <div className="h-full w-[100%] lg:w-[40%] md:w-[40%] fixed top-0 blur-[40px] z-10 overflow-hidden">
                             <img
@@ -164,7 +178,7 @@ function MusicPlayerBottom() {
                             </div>
                             <div className="my-2 flex w-[100%] items-center max-w-md">
                                 <div className="text-xs text-white mx-4">
-                                    <p>{formatTime(currentTime)}</p>
+                                    {isLoading ? "00:00" : <p>{formatTime(currentTime)}</p>}
                                 </div>
                                 {isLoading ? <div className="skeleton bg-[#272a42] h-[5px] w-full"></div> : <input
                                     type="range"
@@ -176,7 +190,7 @@ function MusicPlayerBottom() {
                                 />}
 
                                 <div className="text-xs text-white mx-4">
-                                    {song.duration.label}
+                                    {isLoading ? "00:00" : song.duration.label}
                                 </div>
                             </div>
                             <div className="flex items-center space-x-4 w-[100%] justify-evenly mt-6 mb-[60px] max-w-md">
@@ -199,13 +213,13 @@ function MusicPlayerBottom() {
                             <div className='overflow-y-scroll h-[calc(100%-54px)] p-4 flex flex-col gap-4 '>
                                 {songsRecommendations && songsRecommendations.map((song, index) => <MusicTiles key={index} songData={song} />)}
                             </div>
-                            <button onClick={() => { setisMusicListExpanded(!isMusicListExpanded) }} className='text-white w-full h-14 fixed bottom-0 bg-inherit '>{isMusicListExpanded ? <ExpandMoreIcon /> : <QueueMusicIcon />}</button>
+                            <button onClick={() => { setisMusicListExpanded(!isMusicListExpanded); isMusicListExpanded ? navigate(-1) : navigate("#musicsuggestion") }} className='text-white w-full h-14 fixed bottom-0 bg-inherit '>{isMusicListExpanded ? <ExpandMoreIcon /> : <QueueMusicIcon />}</button>
                         </div>
                     </div>
                     <div className='bg-gray-900 h-full lg:w-[60%] md:w-[60%] hidden md:flex flex-col gap-4 p-4 overflow-y-auto'>
                         {songsRecommendations && songsRecommendations.map((song, index) => <MusicTiles key={index} songData={song} />)}
                     </div>
-                </div> : <div onClick={() => { setIsExpended(true) }} className='flex items-center p-4 bg-gray-900 shadow-md rounded-t-[14px] w-full z-30 text-white justify-between gap-2'>
+                </div> : <div onClick={() => { setIsExpended(true); navigate("#player",{replace:true}) }} className='flex items-center p-4 bg-gray-900 shadow-md rounded-t-[14px] w-full z-30 text-white justify-between gap-2'>
                     <div className="flex items-center space-x-4">
                         <button className='btn'>
                             <ExpandLessIcon />
