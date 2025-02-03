@@ -13,8 +13,8 @@ export default defineConfig({
         name: 'Music',
         short_name: 'Music',
         description: 'Music',
-        theme_color: '#111827',
-        background_color: '#111827',
+        theme_color: '#001919',
+        background_color: '#001919',
         display: 'standalone',
         icons: [
           {
