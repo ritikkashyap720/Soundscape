@@ -15,7 +15,7 @@ export default defineConfig({
         description: 'Music',
         theme_color: '#111827',
         background_color: '#111827',
-        display: 'minimal-ui',
+        display: 'standalone',
         icons: [
           {
             src: '/music-192x192.png',
