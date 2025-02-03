@@ -151,6 +151,7 @@ function MusicPlayerBottom() {
                     onTimeUpdate={updateProgress}
                     className=''
                     loop={loopAudio}
+                    autoPlay
                 />}
                 {isExpanded ? <div className='w-full lg:h-screen h-[100%] fixed top-0 z-30 flex flex-row'>
                     <button className='flex items-center justify-center p-1 fixed top-6 left-6 z-50 outline-none border-none text-white cursor-pointer hover:gray-300' onClick={() => { setIsExpended(false); navigate(-1) }}><KeyboardArrowDownIcon sx={{ fontSize: 40 }} /></button>
