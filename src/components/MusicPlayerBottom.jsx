@@ -152,9 +152,9 @@ function MusicPlayerBottom() {
     };
 
     const handleSkipBack = () => {
-        // console.log("previous")
-        // console.log(isLoading)
-        // if (!isLoading) {
+        console.log("previous")
+        console.log(isLoading)
+        if (!isLoading) {
             if (playLocalSongs) {
                 const currentIndex = songsRecommendations.findIndex(item => item.youtubeId == song.youtubeId)
                 if (currentIndex == 0) {
@@ -166,12 +166,12 @@ function MusicPlayerBottom() {
             else if (songsRecommendations) {
                 setSongValue(songsRecommendations[0]);
             }
-        // };
+        };
     }
 
     const handleSkipForward = () => {
-        // console.log("next", isLoading)
-        // if (!isLoading) {
+        console.log("next", isLoading)
+        if (!isLoading) {
             if (playLocalSongs) {
                 const currentIndex = songsRecommendations.findIndex(item => item.youtubeId == song.youtubeId)
                 if (currentIndex == songsRecommendations.length - 1) {
@@ -182,7 +182,7 @@ function MusicPlayerBottom() {
             } else if (songsRecommendations) {
                 setSongValue(songsRecommendations[1]);
             }
-        // }
+        }
     };
 
     const handleVolumeChange = (e) => {
