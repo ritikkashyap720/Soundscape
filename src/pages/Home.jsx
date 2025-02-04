@@ -21,7 +21,7 @@ function Home() {
           <p className=' text-green-300 font-semibold'>Liked Songs</p>
           <span className='flex items-center gap-2'>
           Play liked songs
-          <input type="checkbox" className="toggle toggle-sm" onClick={()=>setPlayLocalSong(!playLocalSongs)} checked={playLocalSongs}/>
+          <input type="checkbox" className="toggle toggle-sm" onChange={()=>setPlayLocalSong(!playLocalSongs)} checked={playLocalSongs}/>
           </span>
           </div>
           <div className=' flex flex-col gap-4 p-4 overflow-y-auto'>

@@ -12,6 +12,7 @@ function App() {
     return (
         <NowPlayingContextProvider>
             <BrowserRouter>
+                
                 <MusicPlayerBottom />
                 <Routes>
                     <Route path="/" element={<Home/>} />

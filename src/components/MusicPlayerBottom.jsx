@@ -56,6 +56,8 @@ function MusicPlayerBottom() {
     // load music suggestion
     useEffect(() => {
         setDuration(0)
+        setProgress(0)
+        setCurrentTime(0)
         audioRef.current = null;
         setIsLoading(true)
         setAudioSource(null)
@@ -93,7 +95,6 @@ function MusicPlayerBottom() {
                     }
                 }
 
-                console.log(artistName)
                 navigator.mediaSession.metadata = new MediaMetadata({
                     title: song.title,
                     artist: artistName,
@@ -123,7 +124,7 @@ function MusicPlayerBottom() {
                 navigator.mediaSession.setActionHandler("previoustrack", () => {
                     handleSkipBack()
                 });
-                
+
                 navigator.mediaSession.setActionHandler("nexttrack", () => {
                     handleSkipForward()
                 });
@@ -134,6 +135,8 @@ function MusicPlayerBottom() {
     useEffect(() => {
         if (audioRef.current) {
             audioRef.current.volume = volume / 100;
+            audioRef.current.play();
+            setIsLoading(false)
         }
     }, [audioRef.current])
 
@@ -167,7 +170,7 @@ function MusicPlayerBottom() {
     }
 
     const handleSkipForward = () => {
-        console.log("next",isLoading)
+        console.log("next", isLoading)
         if (!isLoading) {
             if (playLocalSongs) {
                 const currentIndex = songsRecommendations.findIndex(item => item.youtubeId == song.youtubeId)
@@ -203,11 +206,11 @@ function MusicPlayerBottom() {
             const current = audioRef.current.currentTime;
             setCurrentTime(current);
             setProgress((current / audioRef.current.duration) * 100);
-            if(isLoading){
+            if (isLoading) {
                 setIsLoading(false);
             }
         }
-        
+
         if (Math.floor(audioRef.current.currentTime) == song.duration.totalSeconds - 1) {
             if (!loopAudio) {
                 handleSkipForward()
@@ -271,7 +274,7 @@ function MusicPlayerBottom() {
                                 </div>
                             </div>
                             <div className="flex items-center space-x-4 w-[100%] justify-evenly mt-6 mb-[60px] max-w-md">
-                                {isSaved ? <button className='btn hover:text-gray-300 transition' onClick={() => { removeSong(song.youtubeId); setIsSaved(false) }}><FavoriteRoundedIcon x={{ fontSize: 30 }} className='text-green-300' /></button> : <button onClick={() => { addSong(song); setIsSaved(true) }} className='btn hover:text-gray-300 transition'><FavoriteBorderIcon x={{ fontSize: 30 }} /></button>}
+                                {isSaved ? <button className='btn hover:text-gray-300 transition' onClick={() => { removeSong(song.youtubeId); setIsSaved(false) }}><FavoriteRoundedIcon sx={{ fontSize: 30 }} className='text-green-300' /></button> : <button onClick={() => { addSong(song); setIsSaved(true) }} className='btn hover:text-gray-300 transition'><FavoriteBorderIcon sx={{ fontSize: 30 }} /></button>}
                                 <button className='btn-circle hover:text-gray-300 transition' onClick={handleSkipBack}>
                                     <SkipPreviousIcon sx={{ fontSize: 30 }} />
                                 </button>
@@ -366,7 +369,7 @@ function MusicPlayerBottom() {
                             {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
                         </button>}
 
-                        {isSaved ? <button className='btn bg-transparent hover:text-gray-300 transition' onClick={(e) => { e.stopPropagation(); removeSong(song.youtubeId); setIsSaved(false) }}><FavoriteRoundedIcon x={{ fontSize: 30 }} className='text-green-300' /></button> : <button onClick={(e) => { e.stopPropagation(); addSong(song); setIsSaved(true) }} className='hover:text-gray-300 transition'><FavoriteBorderIcon x={{ fontSize: 30 }} /></button>}
+                        {isSaved ? <button className='btn bg-transparent hover:text-gray-300 transition' onClick={(e) => { e.stopPropagation(); removeSong(song.youtubeId); setIsSaved(false) }}><FavoriteRoundedIcon sx={{ fontSize: 30 }} className='text-green-300' /></button> : <button onClick={(e) => { e.stopPropagation(); addSong(song); setIsSaved(true) }} className='hover:text-gray-300 transition'><FavoriteBorderIcon sx={{ fontSize: 30 }} /></button>}
                     </div>
                 </div>}
             </div>
