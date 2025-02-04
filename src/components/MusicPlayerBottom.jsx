@@ -37,6 +37,7 @@ function MusicPlayerBottom() {
     const [isLoading, setIsLoading] = useState(false)
     // local storage check
     const [isSaved, setIsSaved] = useState(false)
+    // global array
     useEffect(() => {
         if (song) {
             setIsSaved(findSongByYoutubeId(song.youtubeId))
@@ -121,16 +122,14 @@ function MusicPlayerBottom() {
                     audioRef.current.currentTime += details.seekOffset || 10;
                 });
 
-                navigator.mediaSession.setActionHandler("previoustrack", () => {
-                    handleSkipBack()
-                });
-
-                navigator.mediaSession.setActionHandler("nexttrack", () => {
-                    handleSkipForward()
+                navigator.mediaSession.setActionHandler('previoustrack', function () {handleSkipBack() });
+                navigator.mediaSession.setActionHandler('nexttrack', function () { 
+                   
+                    handleSkipForward();
                 });
             }
         }
-    }, [song]);
+    }, [song,songsRecommendations]);
 
     useEffect(() => {
         if (audioRef.current) {
@@ -152,35 +151,40 @@ function MusicPlayerBottom() {
     };
 
     const handleSkipBack = () => {
-        console.log("previous")
-        console.log(isLoading)
-        if (!isLoading) {
+        if (audioRef.current) {
             if (playLocalSongs) {
                 const currentIndex = songsRecommendations.findIndex(item => item.youtubeId == song.youtubeId)
-                if (currentIndex == 0) {
-                    setSongValue(songsRecommendations[songsRecommendations.length - 1])
+                if (currentIndex!=null) {
+                    if (currentIndex == 0) {
+                        setSongValue(songsRecommendations[songsRecommendations.length - 1])
+                    }else{
+                        setSongValue(songsRecommendations[currentIndex-1])
+                    }
                 } else {
-                    setSongValue(songsRecommendations[currentIndex - 1])
+                    setSongValue(songsRecommendations[0])
                 }
             }
             else if (songsRecommendations) {
                 setSongValue(songsRecommendations[0]);
-            }
-        };
+            } 
+        } 
     }
 
     const handleSkipForward = () => {
-        console.log("next", isLoading)
-        if (!isLoading) {
+        if (audioRef.current) {
             if (playLocalSongs) {
                 const currentIndex = songsRecommendations.findIndex(item => item.youtubeId == song.youtubeId)
-                if (currentIndex == songsRecommendations.length - 1) {
+                if (currentIndex!=null) {
+                    if (currentIndex == songsRecommendations.length - 1) {
+                        setSongValue(songsRecommendations[0])
+                    }else{
+                        setSongValue(songsRecommendations[currentIndex+1])
+                    }
+                } else{
                     setSongValue(songsRecommendations[0])
-                } else {
-                    setSongValue(songsRecommendations[currentIndex + 1])
                 }
-            } else if (songsRecommendations) {
-                setSongValue(songsRecommendations[1]);
+            } else{
+                setSongValue(songsRecommendations[1]);   
             }
         }
     };
