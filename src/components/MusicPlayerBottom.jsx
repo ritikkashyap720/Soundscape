@@ -203,7 +203,11 @@ function MusicPlayerBottom() {
             const current = audioRef.current.currentTime;
             setCurrentTime(current);
             setProgress((current / audioRef.current.duration) * 100);
+            if(isLoading){
+                setIsLoading(false);
+            }
         }
+        
         if (Math.floor(audioRef.current.currentTime) == song.duration.totalSeconds - 1) {
             if (!loopAudio) {
                 handleSkipForward()
