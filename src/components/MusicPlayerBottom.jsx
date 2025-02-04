@@ -64,8 +64,8 @@ function MusicPlayerBottom() {
             axios.get(`${BASE_URL}/play/${song.youtubeId}`).then((response) => {
                 if (response.data.audio) {
                     setAudioSource(response.data.audio.url)
-                    setIsLoading(false);
                 }
+                setIsLoading(false);
             })
             if (audioSource) {
                 setIsPlaying(true)
@@ -78,6 +78,58 @@ function MusicPlayerBottom() {
             axios.get(`${BASE_URL}/getSongDetails/${song.youtubeId} `).then((response) => { if (response.data) setSongThumnails(response.data.thumbnailUrl) })
         }
     }, [song])
+
+    // media notification controls
+    useEffect(() => {
+        if ("mediaSession" in navigator) {
+            if (song) {
+                var artistName = "";
+                song.artists.map((artist, index) => <span key={index}>{artist.name}{index < song.artists.length - 1 && " | "}</span>)
+                for (let i = 0; i < song.artists.length; i++) {
+                    if (i < song.artists.length - 1) {
+                        artistName = artistName + song.artists[i].name + " | ";
+                    } else {
+                        artistName = artistName + song.artists[i].name;
+                    }
+                }
+
+                console.log(artistName)
+                navigator.mediaSession.metadata = new MediaMetadata({
+                    title: song.title,
+                    artist: artistName,
+                    artwork: [
+                        { src: song.thumbnailUrl, sizes: "512x512", type: "image/png" },
+                    ],
+                });
+
+                navigator.mediaSession.setActionHandler("play", () => {
+                    audioRef.current.play();
+                    setIsPlaying(true);
+                });
+
+                navigator.mediaSession.setActionHandler("pause", () => {
+                    audioRef.current.pause();
+                    setIsPlaying(false);
+                });
+
+                navigator.mediaSession.setActionHandler("seekbackward", (details) => {
+                    audioRef.current.currentTime -= details.seekOffset || 10;
+                });
+
+                navigator.mediaSession.setActionHandler("seekforward", (details) => {
+                    audioRef.current.currentTime += details.seekOffset || 10;
+                });
+
+                navigator.mediaSession.setActionHandler("previoustrack", () => {
+                    handleSkipBack()
+                });
+                
+                navigator.mediaSession.setActionHandler("nexttrack", () => {
+                    handleSkipForward()
+                });
+            }
+        }
+    }, [song]);
 
     useEffect(() => {
         if (audioRef.current) {
@@ -97,30 +149,36 @@ function MusicPlayerBottom() {
     };
 
     const handleSkipBack = () => {
-        if (playLocalSongs) {
-            const currentIndex = songsRecommendations.findIndex(item => item.youtubeId == song.youtubeId)
-            if (currentIndex == 0) {
-                setSongValue(songsRecommendations[songsRecommendations.length - 1])
-            } else {
-                setSongValue(songsRecommendations[currentIndex-1])
+        console.log("previous")
+        console.log(isLoading)
+        if (!isLoading) {
+            if (playLocalSongs) {
+                const currentIndex = songsRecommendations.findIndex(item => item.youtubeId == song.youtubeId)
+                if (currentIndex == 0) {
+                    setSongValue(songsRecommendations[songsRecommendations.length - 1])
+                } else {
+                    setSongValue(songsRecommendations[currentIndex - 1])
+                }
             }
-        }
-        else if (songsRecommendations) {
-            setSongValue(songsRecommendations[0]);
-        }
-    };
+            else if (songsRecommendations) {
+                setSongValue(songsRecommendations[0]);
+            }
+        };
+    }
 
     const handleSkipForward = () => {
-
-        if (playLocalSongs) {
-            const currentIndex = songsRecommendations.findIndex(item => item.youtubeId == song.youtubeId)
-            if (currentIndex == songsRecommendations.length - 1) {
-                setSongValue(songsRecommendations[0])
-            } else {
-                setSongValue(songsRecommendations[currentIndex + 1])
+        console.log("next",isLoading)
+        if (!isLoading) {
+            if (playLocalSongs) {
+                const currentIndex = songsRecommendations.findIndex(item => item.youtubeId == song.youtubeId)
+                if (currentIndex == songsRecommendations.length - 1) {
+                    setSongValue(songsRecommendations[0])
+                } else {
+                    setSongValue(songsRecommendations[currentIndex + 1])
+                }
+            } else if (songsRecommendations) {
+                setSongValue(songsRecommendations[1]);
             }
-        } else if (songsRecommendations) {
-            setSongValue(songsRecommendations[1]);
         }
     };
 
@@ -147,7 +205,9 @@ function MusicPlayerBottom() {
             setProgress((current / audioRef.current.duration) * 100);
         }
         if (Math.floor(audioRef.current.currentTime) == song.duration.totalSeconds - 1) {
-            handleSkipForward()
+            if (!loopAudio) {
+                handleSkipForward()
+            }
         }
     };
 
@@ -191,7 +251,7 @@ function MusicPlayerBottom() {
                             </div>
                             <div className="my-2 flex w-[100%] items-center max-w-md">
                                 <div className="text-xs text-white mx-4">
-                                    {isLoading ? "00:00" : <p>{formatTime(currentTime)}</p>}
+                                    {isLoading ? "0:00" : <p>{formatTime(currentTime)}</p>}
                                 </div>
                                 {isLoading ? <div className="skeleton bg-[#26683e] h-[5px] w-full"></div> : <input
                                     type="range"
@@ -203,7 +263,7 @@ function MusicPlayerBottom() {
                                 />}
 
                                 <div className="text-xs text-white mx-4">
-                                    {isLoading ? "00:00" : song.duration.label}
+                                    {isLoading ? "0:00" : song.duration.label}
                                 </div>
                             </div>
                             <div className="flex items-center space-x-4 w-[100%] justify-evenly mt-6 mb-[60px] max-w-md">
