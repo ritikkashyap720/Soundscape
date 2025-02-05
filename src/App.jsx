@@ -11,8 +11,7 @@ function App() {
     const { song, songsList, setSongsListValue } = useContext(NowPlayingContext)
     return (
         <NowPlayingContextProvider>
-            <BrowserRouter>
-                
+            <BrowserRouter>      
                 <MusicPlayerBottom />
                 <Routes>
                     <Route path="/" element={<Home/>} />

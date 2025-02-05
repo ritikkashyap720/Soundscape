@@ -44,6 +44,8 @@ function MusicPlayerBottom() {
         }
         if(playLocalSongs){
             setSongsRecommendations(localSongs)
+        }else{
+            song && axios.get(`${BASE_URL}/suggestions/${song.youtubeId} `).then((response) => { if (response.data) setSongsRecommendations(response.data) })
         }
     }, [localSongs, song,playLocalSongs])
     // check location 
