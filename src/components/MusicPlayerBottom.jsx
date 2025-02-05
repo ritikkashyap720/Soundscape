@@ -27,7 +27,7 @@ function MusicPlayerBottom() {
     const location = useLocation();
     const BASE_URL = "http://localhost:8000"
     const [songThumnails, setSongThumnails] = useState(null);
-    const [isPlaying, setIsPlaying] = useState(true);
+    const [isPlaying, setIsPlaying] = useState(false);
     const [progress, setProgress] = useState(0); // Progress percentage
     const [duration, setDuration] = useState(0); // Total duration of the audio in seconds
     const [currentTime, setCurrentTime] = useState(0); // Current time of the audio in seconds
@@ -42,7 +42,10 @@ function MusicPlayerBottom() {
         if (song) {
             setIsSaved(findSongByYoutubeId(song.youtubeId))
         }
-    }, [localSongs, song])
+        if(playLocalSongs){
+            setSongsRecommendations(localSongs)
+        }
+    }, [localSongs, song,playLocalSongs])
     // check location 
     useEffect(() => {
         if (location.hash == "#player") {
@@ -70,9 +73,6 @@ function MusicPlayerBottom() {
                 }
                 setIsLoading(false);
             })
-            if (audioSource) {
-                setIsPlaying(true)
-            }
             if (playLocalSongs) {
                 setSongsRecommendations(localSongs);
             } else {
@@ -135,9 +135,9 @@ function MusicPlayerBottom() {
         if (audioRef.current) {
             audioRef.current.volume = volume / 100;
             audioRef.current.play();
-            setIsLoading(false)
+            setIsPlaying(true);
         }
-    }, [audioRef.current])
+    }, [isLoading])
 
     const togglePlayPause = () => {
         if (audioRef.current) {
@@ -236,7 +236,6 @@ function MusicPlayerBottom() {
                     onTimeUpdate={updateProgress}
                     className=''
                     loop={loopAudio}
-                    autoPlay
                 />}
                 {isExpanded ? <div className='w-full lg:h-screen h-[100%] fixed top-0 z-30 flex flex-row'>
                     <button className='flex items-center justify-center p-1 fixed top-6 left-6 z-50 outline-none border-none text-white cursor-pointer hover:gray-300' onClick={() => { setIsExpended(false); navigate(-1) }}><KeyboardArrowDownIcon sx={{ fontSize: 40 }} /></button>
