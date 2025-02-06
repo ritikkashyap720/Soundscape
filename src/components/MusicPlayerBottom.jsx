@@ -42,12 +42,13 @@ function MusicPlayerBottom() {
         if (song) {
             setIsSaved(findSongByYoutubeId(song.youtubeId))
         }
-        if(playLocalSongs){
+        if (playLocalSongs) {
             setSongsRecommendations(localSongs)
-        }else{
+        }
+        else {
             song && axios.get(`${BASE_URL}/suggestions/${song.youtubeId} `).then((response) => { if (response.data) setSongsRecommendations(response.data) })
         }
-    }, [localSongs, song,playLocalSongs])
+    }, [localSongs, playLocalSongs, song])
     // check location 
     useEffect(() => {
         if (location.hash == "#player") {
@@ -75,11 +76,6 @@ function MusicPlayerBottom() {
                 }
                 setIsLoading(false);
             })
-            if (playLocalSongs) {
-                setSongsRecommendations(localSongs);
-            } else {
-                axios.get(`${BASE_URL}/suggestions/${song.youtubeId} `).then((response) => { if (response.data) setSongsRecommendations(response.data) })
-            }
             axios.get(`${BASE_URL}/getSongDetails/${song.youtubeId} `).then((response) => { if (response.data) setSongThumnails(response.data.thumbnailUrl) })
         }
     }, [song])
@@ -124,22 +120,23 @@ function MusicPlayerBottom() {
                     audioRef.current.currentTime += details.seekOffset || 10;
                 });
 
-                navigator.mediaSession.setActionHandler('previoustrack', function () {handleSkipBack() });
-                navigator.mediaSession.setActionHandler('nexttrack', function () { 
-                   
+                navigator.mediaSession.setActionHandler('previoustrack', function () { handleSkipBack() });
+                navigator.mediaSession.setActionHandler('nexttrack', function () {
+
                     handleSkipForward();
                 });
             }
         }
-    }, [song,songsRecommendations,audioRef]);
+    }, [song, songsRecommendations, audioRef]);
 
     useEffect(() => {
         if (audioRef.current) {
             audioRef.current.volume = volume / 100;
             audioRef.current.play();
             setIsPlaying(true);
+            console.log("playing")
         }
-    }, [isLoading])
+    }, [isLoading==false])
 
     const togglePlayPause = () => {
         if (audioRef.current) {
@@ -156,11 +153,11 @@ function MusicPlayerBottom() {
         if (audioRef.current) {
             if (playLocalSongs) {
                 const currentIndex = songsRecommendations.findIndex(item => item.youtubeId == song.youtubeId)
-                if (currentIndex!=null) {
+                if (currentIndex != null) {
                     if (currentIndex == 0) {
                         setSongValue(songsRecommendations[songsRecommendations.length - 1])
-                    }else{
-                        setSongValue(songsRecommendations[currentIndex-1])
+                    } else {
+                        setSongValue(songsRecommendations[currentIndex - 1])
                     }
                 } else {
                     setSongValue(songsRecommendations[0])
@@ -168,25 +165,25 @@ function MusicPlayerBottom() {
             }
             else if (songsRecommendations) {
                 setSongValue(songsRecommendations[0]);
-            } 
-        } 
+            }
+        }
     }
 
     const handleSkipForward = () => {
         if (audioRef.current) {
             if (playLocalSongs) {
                 const currentIndex = songsRecommendations.findIndex(item => item.youtubeId == song.youtubeId)
-                if (currentIndex!=null) {
+                if (currentIndex != null) {
                     if (currentIndex == songsRecommendations.length - 1) {
                         setSongValue(songsRecommendations[0])
-                    }else{
-                        setSongValue(songsRecommendations[currentIndex+1])
+                    } else {
+                        setSongValue(songsRecommendations[currentIndex + 1])
                     }
-                } else{
+                } else {
                     setSongValue(songsRecommendations[0])
                 }
-            } else{
-                setSongValue(songsRecommendations[Math.floor(Math.random() * 19)]);   
+            } else {
+                setSongValue(songsRecommendations[Math.floor(Math.random() * 19)]);
             }
         }
     };
