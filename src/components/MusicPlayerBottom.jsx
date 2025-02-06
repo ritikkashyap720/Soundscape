@@ -73,10 +73,10 @@ function MusicPlayerBottom() {
             axios.get(`${BASE_URL}/play/${song.youtubeId}`).then((response) => {
                 if (response.data.audio) {
                     setAudioSource(response.data.audio.url)
+                    setIsLoading(false);
                 }
-                setIsLoading(false);
             })
-            axios.get(`${BASE_URL}/getSongDetails/${song.youtubeId} `).then((response) => { if (response.data) setSongThumnails(response.data.thumbnailUrl) })
+            axios.get(`${BASE_URL}/getSongDetails/${song.youtubeId}`).then((response) => { if (response.data) setSongThumnails(response.data.thumbnailUrl) })
         }
     }, [song])
 
@@ -120,10 +120,10 @@ function MusicPlayerBottom() {
                     audioRef.current.currentTime += details.seekOffset || 10;
                 });
 
-                navigator.mediaSession.setActionHandler('previoustrack', function () { handleSkipBack() });
+                navigator.mediaSession.setActionHandler('previoustrack', function () { handlePreviousTrack() });
                 navigator.mediaSession.setActionHandler('nexttrack', function () {
 
-                    handleSkipForward();
+                    handleNextTrack();
                 });
             }
         }
@@ -136,7 +136,7 @@ function MusicPlayerBottom() {
             setIsPlaying(true);
             console.log("playing")
         }
-    }, [isLoading==false])
+    }, [isLoading])
 
     const togglePlayPause = () => {
         if (audioRef.current) {
@@ -149,7 +149,7 @@ function MusicPlayerBottom() {
         }
     };
 
-    const handleSkipBack = () => {
+    const handlePreviousTrack = () => {
         if (audioRef.current) {
             if (playLocalSongs) {
                 const currentIndex = songsRecommendations.findIndex(item => item.youtubeId == song.youtubeId)
@@ -169,7 +169,7 @@ function MusicPlayerBottom() {
         }
     }
 
-    const handleSkipForward = () => {
+    const handleNextTrack = () => {
         if (audioRef.current) {
             if (playLocalSongs) {
                 const currentIndex = songsRecommendations.findIndex(item => item.youtubeId == song.youtubeId)
@@ -216,10 +216,11 @@ function MusicPlayerBottom() {
 
         if (Math.floor(audioRef.current.currentTime) == song.duration.totalSeconds - 1) {
             if (!loopAudio) {
-                handleSkipForward()
+                handleNextTrack()
             }
         }
     };
+ 
 
     const formatTime = (time) => {
         const minutes = Math.floor(time / 60);
@@ -235,6 +236,7 @@ function MusicPlayerBottom() {
                     onTimeUpdate={updateProgress}
                     className=''
                     loop={loopAudio}
+                    autoPlay
                 />}
                 {isExpanded ? <div className='w-full lg:h-screen h-[100%] fixed top-0 z-30 flex flex-row'>
                     <button className='flex items-center justify-center p-1 fixed top-6 left-6 z-50 outline-none border-none text-white cursor-pointer hover:gray-300' onClick={() => { setIsExpended(false); navigate(-1) }}><KeyboardArrowDownIcon sx={{ fontSize: 40 }} /></button>
@@ -277,13 +279,13 @@ function MusicPlayerBottom() {
                             </div>
                             <div className="flex items-center space-x-4 w-[100%] justify-evenly mt-6 mb-[60px] max-w-md">
                                 {isSaved ? <button className='btn hover:text-gray-300 transition' onClick={() => { removeSong(song.youtubeId); setIsSaved(false) }}><FavoriteRoundedIcon sx={{ fontSize: 30 }} className='text-green-300' /></button> : <button onClick={() => { addSong(song); setIsSaved(true) }} className='btn hover:text-gray-300 transition'><FavoriteBorderIcon sx={{ fontSize: 30 }} /></button>}
-                                <button className='btn-circle hover:text-gray-300 transition' onClick={handleSkipBack}>
+                                <button className='btn-circle hover:text-gray-300 transition' onClick={handlePreviousTrack}>
                                     <SkipPreviousIcon sx={{ fontSize: 30 }} />
                                 </button>
                                 <button className='bg-white text-black btn-circle hover:bg-gray-300 transition' onClick={togglePlayPause}>
                                     {isPlaying ? <PauseIcon sx={{ fontSize: 30 }} /> : <PlayArrowIcon sx={{ fontSize: 30 }} />}
                                 </button>
-                                <button className='btn-circle hover:text-gray-300 transition' onClick={handleSkipForward}>
+                                <button className='btn-circle hover:text-gray-300 transition' onClick={handleNextTrack}>
                                     <SkipNextIcon sx={{ fontSize: 30 }} />
                                 </button>
                                 <button className={`btn transition ${loopAudio && "text-green-300"}`} onClick={() => { setLoopAudio(!loopAudio) }}>
@@ -338,13 +340,13 @@ function MusicPlayerBottom() {
 
                     {/* Controls */}
                     <div className="items-center space-x-4 hidden sm:hidden lg:flex">
-                        <button className='btn' size="sm" onClick={(e) => { e.stopPropagation(); handleSkipBack() }}>
+                        <button className='btn' size="sm" onClick={(e) => { e.stopPropagation(); handlePreviousTrack() }}>
                             <SkipPreviousIcon />
                         </button>
                         <button className='btn' size="sm" onClick={(e) => { e.stopPropagation(); togglePlayPause(); }}>
                             {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
                         </button>
-                        <button className='btn' size="sm" onClick={(e) => { e.stopPropagation(); handleSkipForward() }}>
+                        <button className='btn' size="sm" onClick={(e) => { e.stopPropagation(); handleNextTrack() }}>
                             <SkipNextIcon />
                         </button>
                         <button variant="ghost" size="sm" className={`btn ${loopAudio && "text-green-300"}`} onClick={(e) => { setLoopAudio(!loopAudio); e.stopPropagation() }}>
