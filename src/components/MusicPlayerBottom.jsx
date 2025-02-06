@@ -139,7 +139,7 @@ function MusicPlayerBottom() {
             audioRef.current.play();
             setIsPlaying(true);
         }
-    }, [audioRef.current,isLoading])
+    }, [isLoading])
 
     const togglePlayPause = () => {
         if (audioRef.current) {
