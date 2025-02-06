@@ -131,7 +131,7 @@ function MusicPlayerBottom() {
                 });
             }
         }
-    }, [song,songsRecommendations]);
+    }, [song,songsRecommendations,audioRef]);
 
     useEffect(() => {
         if (audioRef.current) {
@@ -186,7 +186,7 @@ function MusicPlayerBottom() {
                     setSongValue(songsRecommendations[0])
                 }
             } else{
-                setSongValue(songsRecommendations[1]);   
+                setSongValue(songsRecommendations[Math.floor(Math.random() * 19)]);   
             }
         }
     };
@@ -231,7 +231,7 @@ function MusicPlayerBottom() {
     };
     if (song) {
         return (
-            <div className={`${isExpanded ? "h-full top-0 fixed" : "h-[80px] bottom-0 fixed "}   z-30 transition-all w-full duration-[300ms]`}>
+            <div className={`${isExpanded ? "h-full" : "h-[80px] bottom-0 "} fixed  z-30 transition-all w-full duration-[3000ms]`}>
                 {audioSource && <audio
                     ref={audioRef}
                     src={audioSource}
@@ -304,7 +304,7 @@ function MusicPlayerBottom() {
                     <div className='bg-[#001919] h-full lg:w-[60%] md:w-[60%] hidden md:flex flex-col gap-4 p-4 overflow-y-auto'>
                         {songsRecommendations && songsRecommendations.map((song, index) => <MusicTiles key={index} songData={song} />)}
                     </div>
-                </div> : <div onClick={() => { setIsExpended(true); navigate("#player") }} className='flex items-center p-4 bg-[#001919] shadow-md border-t-[1px] border-green-300 w-full z-30 text-white justify-between gap-2'>
+                </div> : <div onClick={() => { setIsExpended(true); navigate("#player") }} className='flex items-center p-4 bg-[#001919] shadow-md border-t-[1px] h-[81px] border-green-300 w-full z-30 text-white justify-between gap-2'>
                     <div className="flex items-center space-x-4">
                         <button className='btn'>
                             <ExpandLessIcon />
