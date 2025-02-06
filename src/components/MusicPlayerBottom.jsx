@@ -231,7 +231,7 @@ function MusicPlayerBottom() {
     };
     if (song) {
         return (
-            <div className={`${isExpanded ? "h-full" : "h-[80px] bottom-0 "} fixed  z-30 transition-all w-full duration-[3000ms]`}>
+            <div className={`${isExpanded ? "h-full" : "h-[80px] bottom-0 "} fixed  z-30 transition-all w-full duration-[300ms]`}>
                 {audioSource && <audio
                     ref={audioRef}
                     src={audioSource}
