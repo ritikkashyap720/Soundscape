@@ -31,7 +31,7 @@ function MusicPlayerBottom() {
     const [progress, setProgress] = useState(0); // Progress percentage
     const [duration, setDuration] = useState(0); // Total duration of the audio in seconds
     const [currentTime, setCurrentTime] = useState(0); // Current time of the audio in seconds
-    const [volume, setVolume] = useState(100); // Volume percentage
+
     const audioRef = useRef(null);
     const [loopAudio, setLoopAudio] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
@@ -131,7 +131,6 @@ function MusicPlayerBottom() {
 
     useEffect(() => {
         if (audioRef.current) {
-            audioRef.current.volume = volume / 100;
             audioRef.current.play();
             setIsPlaying(true);
             console.log("playing")
@@ -188,13 +187,6 @@ function MusicPlayerBottom() {
         }
     };
 
-    const handleVolumeChange = (e) => {
-        const newVolume = e.target.value;
-        setVolume(newVolume);
-        if (audioRef.current) {
-            audioRef.current.volume = newVolume / 100;
-        }
-    };
 
     const handleProgressChange = (e) => {
         const newProgress = e.target.value;
@@ -220,7 +212,7 @@ function MusicPlayerBottom() {
             }
         }
     };
- 
+
 
     const formatTime = (time) => {
         const minutes = Math.floor(time / 60);
@@ -354,20 +346,7 @@ function MusicPlayerBottom() {
                         </button>
                     </div>
                     {/* Additional Options */}
-                    <div className="items-center space-x-2 hidden sm:hidden lg:flex">
-                        <input
-                            type="range"
-                            min="0"
-                            max="100"
-                            value={volume}
-                            onClick={(e) => e.stopPropagation()}
-                            onChange={(e) => { handleVolumeChange(e) }}
-                            className=" range range-xs w-20 h-1 bg-gray-300 rounded-full"
-                        />
-                        <button  >
-                            <VolumeUpIcon />
-                        </button>
-                    </div>
+                    
                     <div className="flex items-center space-x-4">
                         {isLoading ? <span className="loading loading-ring loading-md"></span> : <button variant="ghost" size="sm" className='btn bg-transparent border-0 lg:hidden' onClick={(e) => { e.stopPropagation(); togglePlayPause() }}>
                             {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
