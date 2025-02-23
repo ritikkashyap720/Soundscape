@@ -134,6 +134,9 @@ function MusicPlayerBottom() {
             audioRef.current.play();
             setIsPlaying(true);
             console.log("playing")
+            if (window.Android) {
+                window.Android.onPlayPause("playing"); // "paused" for pause event
+            }
         }
     }, [isLoading])
 
@@ -247,7 +250,7 @@ function MusicPlayerBottom() {
                                 onError={(e) => { e.target.onerror = null; e.target.src = "Musicplaceholder.png"; }}
                             />
                         </div>
-                        <div className='flex flex-col justify-center h-full items-center min-w-[300px] overflow-y-auto w-[100%]  z-40'>
+                        <div className='flex flex-col justify-center h-full items-center min-w-[300px] overflow-y-auto w-[100%] p-5  z-40'>
                             <img
                                 src={songThumnails ? songThumnails : ""}
                                 alt="Album Cover"
