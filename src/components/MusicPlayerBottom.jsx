@@ -141,8 +141,14 @@ function MusicPlayerBottom() {
         if (audioRef.current) {
             if (isPlaying) {
                 audioRef.current.pause();
+                if (window.Android) {
+                    window.Android.onPlayPause("paused"); // "paused" for pause event
+                }
             } else {
                 audioRef.current.play();
+                if (window.Android) {
+                    window.Android.onPlayPause("playing"); // "paused" for pause event
+                }
             }
             setIsPlaying(!isPlaying);
         }
@@ -241,7 +247,7 @@ function MusicPlayerBottom() {
                                 onError={(e) => { e.target.onerror = null; e.target.src = "Musicplaceholder.png"; }}
                             />
                         </div>
-                        <div className='flex flex-col justify-center h-full items-center min-w-[300px] overflow-y-auto w-[100%] p-5 z-40'>
+                        <div className='flex flex-col justify-center h-full items-center min-w-[300px] overflow-y-auto w-[100%]  z-40'>
                             <img
                                 src={songThumnails ? songThumnails : ""}
                                 alt="Album Cover"
@@ -346,7 +352,7 @@ function MusicPlayerBottom() {
                         </button>
                     </div>
                     {/* Additional Options */}
-                    
+
                     <div className="flex items-center space-x-4">
                         {isLoading ? <span className="loading loading-ring loading-md"></span> : <button variant="ghost" size="sm" className='btn bg-transparent border-0 lg:hidden' onClick={(e) => { e.stopPropagation(); togglePlayPause() }}>
                             {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
