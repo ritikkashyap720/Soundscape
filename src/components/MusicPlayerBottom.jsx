@@ -231,7 +231,7 @@ function MusicPlayerBottom() {
     };
     if (song) {
         return (
-            <div className={`${isExpanded ? "h-full" : "h-[80px] bottom-0 "} fixed  z-30 transition-all w-full duration-[300ms]`}>
+            <div className={`${isExpanded ? "h-full" : "h-[80px] bottom-0 "} fixed  z-30 transition-all w-full duration-[300ms] `}>
                 {audioSource && <audio
                     ref={audioRef}
                     src={audioSource}
@@ -241,7 +241,7 @@ function MusicPlayerBottom() {
                     autoPlay
                 />}
                 <AnimatePresence>
-                    {isExpanded && <motion.div initial={{ y: 40, scale: 0.98 }} animate={{ y: 0, scale: 1 }} exit={{ opacity: 0, scale: 0.98 }} className='w-full lg:h-screen h-[100%] fixed top-0 z-30 flex flex-row'>
+                    {isExpanded && <motion.div initial={{  scale:0.99 }} transition={{duration:0.3, ease:"easeInOut"}} animate={{ scale:1 }} exit={{ opacity: 0, scale: 0.98 }} className='w-full lg:h-screen h-[100%] fixed bottom-0 z-30 flex flex-row'>
                         <button className='flex items-center justify-center p-1 fixed top-6 left-6 z-50 outline-none border-none text-white cursor-pointer hover:gray-300' onClick={() => { setIsExpended(false); navigate(-1) }}><KeyboardArrowDownIcon sx={{ fontSize: 40 }} /></button>
                         <div className='w-[100%] lg:w-[40%] md:w-[40%] bg-[#001919] flex justify-center items-center'>
                             <div className="h-full w-[100%] lg:w-[40%] md:w-[40%] fixed top-0 blur-[40px] z-10 overflow-hidden">
@@ -312,7 +312,7 @@ function MusicPlayerBottom() {
                     </motion.div>}
                 </AnimatePresence>
                 <AnimatePresence>
-                    {!isExpanded && <motion.div exit={{ opacity: 0, scale: 0.98 }} onClick={() => { setIsExpended(true); navigate("#player") }} className='flex items-center p-4 bg-[#001919] shadow-md border-t-[1px] h-[81px] border-green-300 w-full z-30 text-white justify-between gap-2'>
+                    {!isExpanded && <motion.div initial={{opacity:0,scale:0.98}} animate={{opacity:1,scale:1}} transition={{duration:0.3, ease:"easeInOut"}} onClick={() => { setIsExpended(true); navigate("#player") }} className='flex items-center p-4 bg-[#001919] shadow-md border-t-[1px] h-[81px] border-green-300 w-full z-30 text-white justify-between gap-2'>
                         <div className="flex items-center space-x-4">
                             <button className='btn'>
                                 <ExpandLessIcon />
