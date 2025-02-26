@@ -241,7 +241,7 @@ function MusicPlayerBottom() {
                     autoPlay
                 />}
                 <AnimatePresence>
-                    {isExpanded && <motion.div initial={{  scale:0.99 }} transition={{duration:0.1, ease:"easeInOut"}} animate={{ scale:1 }} exit={{ scale: 0.98 }} className='w-full lg:h-screen h-[100%] fixed bottom-0 z-30 flex flex-row'>
+                    {isExpanded && <motion.div transition={{duration:0.1, ease:"easeInOut"}} animate={{ scale:1 }} exit={{ scale: 0.98 }} className='w-full lg:h-screen h-[100%] fixed bottom-0 z-30 flex flex-row'>
                         <button className='flex items-center justify-center p-1 fixed top-6 left-6 z-50 outline-none border-none text-white cursor-pointer hover:gray-300' onClick={() => { setIsExpended(false); navigate(-1) }}><KeyboardArrowDownIcon sx={{ fontSize: 40 }} /></button>
                         <div className='w-[100%] lg:w-[40%] md:w-[40%] bg-[#001919] flex justify-center items-center'>
                             <div className="h-full w-[100%] lg:w-[40%] md:w-[40%] fixed top-0 blur-[40px] z-10 overflow-hidden">
@@ -297,12 +297,12 @@ function MusicPlayerBottom() {
                                 </div>
                             </div>
                             <div className={`${isMusicListExpanded ? "h-full" : "h-14"} w-full fixed bottom-0 bg-[#001919]  lg:hidden md:hidden z-50 transition-all`}>
-                                <AnimatePresence>
+                                
                                     {isMusicListExpanded &&
-                                        <motion.div initial={{scale: 0.98 }} transition={{duration:0.1, ease:"easeInOut"}} animate={{ scale: 1 }} exit={{ opacity: 0, scale: 0.98 , filter:"blur(10px)" }} className='overflow-y-scroll h-[calc(100%-54px)] p-4 flex flex-col gap-4 '>
+                                        <motion.div transition={{duration:0.1, ease:"easeInOut"}} animate={{ scale: 1 }} className='overflow-y-scroll h-[calc(100%-54px)] p-4 flex flex-col gap-4 '>
                                             {songsRecommendations && songsRecommendations.map((song, index) => <MusicTiles key={index} songData={song} />)}
                                         </motion.div>}
-                                </AnimatePresence>
+                               
                                 <button onClick={() => { setisMusicListExpanded(!isMusicListExpanded); isMusicListExpanded ? navigate(-1) : navigate("#musicsuggestion") }} className='text-white w-full h-14 fixed bottom-0 bg-inherit '>{isMusicListExpanded ? <ExpandMoreIcon /> : <QueueMusicIcon />}</button>
                             </div>
                         </div>
