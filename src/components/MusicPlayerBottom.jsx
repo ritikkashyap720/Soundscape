@@ -299,7 +299,7 @@ function MusicPlayerBottom() {
                             <div className={`${isMusicListExpanded ? "h-full" : "h-14"} w-full fixed bottom-0 bg-[#001919]  lg:hidden md:hidden z-50 transition-all`}>
                                 <AnimatePresence>
                                     {isMusicListExpanded &&
-                                        <motion.div initial={{ y: 40, scale: 0.98 }} transition={{duration:0.1, ease:"easeInOut"}} animate={{ y: 0, scale: 1 }} exit={{ opacity: 0, scale: 0.98 , filter:"blur(10px)" }} className='overflow-y-scroll h-[calc(100%-54px)] p-4 flex flex-col gap-4 '>
+                                        <motion.div initial={{scale: 0.98 }} transition={{duration:0.1, ease:"easeInOut"}} animate={{ scale: 1 }} exit={{ opacity: 0, scale: 0.98 , filter:"blur(10px)" }} className='overflow-y-scroll h-[calc(100%-54px)] p-4 flex flex-col gap-4 '>
                                             {songsRecommendations && songsRecommendations.map((song, index) => <MusicTiles key={index} songData={song} />)}
                                         </motion.div>}
                                 </AnimatePresence>
