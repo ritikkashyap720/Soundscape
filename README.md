@@ -18,8 +18,9 @@ SoundScape is a modern music streaming application that offers an immersive and 
   ![music-preview](https://github.com/user-attachments/assets/7271106e-8a22-4558-9521-012e2860e5a2)
 
 - Desktop UI
-  ![music-preview (1)](https://github.com/user-attachments/assets/16f7eef5-b6cc-410b-b1a6-a8c0647006ac)
-  ![music-preview (2)](https://github.com/user-attachments/assets/727189d3-541c-4d6c-8b2e-50e16db3f1f5)
+  ![music-preview (3)](https://github.com/user-attachments/assets/439c0c68-efb4-4535-b60a-d1c7f195095a)
+  ![music-preview (4)](https://github.com/user-attachments/assets/1858f391-2bf3-4591-a96c-836d31df0f16)
+
 
 
 
