@@ -29,13 +29,13 @@ SoundScape is a modern music streaming application that offers an immersive and 
 1. Clone the repository:
    ```bash
     git clone https://github.com/ritikkashyap720/music-backend
-   ```
+   
 2. Run the server:
    ```bash
    cd music-backend
    npm install
    node index.js
-   ```
+   
 4. Run the app
   go to  [Soundscape](https://music-6dku.onrender.com/) this is front end of the app.
  Enjoy your music😉.
